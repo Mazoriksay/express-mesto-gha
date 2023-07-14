@@ -8,14 +8,19 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUserId = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.params.getUserId)
     .then((user) => {
       if (!user) {
         return res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
       }
       return res.send(user);
     })
-    .catch(() => res.status(SERVER_ERROR).send({ message: 'Cервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос' }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные при нахождении пользователя' });
+      }
+      return res.status(SERVER_ERROR).send({ message: 'Cервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос' });
+    });
 };
 
 module.exports.createUser = (req, res) => {
