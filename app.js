@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 
+const { NOT_FOUND } = require('./utils/constants');
+
 const { PORT = 3000 } = process.env;
 
 const app = express();
@@ -21,6 +23,10 @@ app.use((req, res, next) => {
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+
+app.use('*', (req, res) => {
+  res.status(NOT_FOUND).send({ message: 'Запрос не был найден' });
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
