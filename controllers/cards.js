@@ -20,7 +20,7 @@ module.exports.createCard = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.fingByIdAndRemove(req.params.id)
+  Card.fingByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
         return res.status(NOT_FOUND).send({ message: ' Карточка с указанным _id не найдена' });
