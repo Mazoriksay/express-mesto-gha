@@ -27,7 +27,12 @@ module.exports.deleteCard = (req, res) => {
       }
       return res.send(card);
     })
-    .catch(() => res.status(SERVER_ERROR).send({ message: 'Cервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос' }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные при удалении карточки' });
+      }
+      return res.status(SERVER_ERROR).send({ message: 'Cервер столкнулся с неожиданной ошибкой, которая помешала ему выполнить запрос' });
+    });
 };
 
 module.exports.likeCard = (req, res) => {
