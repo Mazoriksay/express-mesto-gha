@@ -1,5 +1,10 @@
 const User = require('../models/user');
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require('../utils/constants');
+const {
+  BAD_REQUEST,
+  NOT_FOUND,
+  SERVER_ERROR,
+  Created,
+} = require('../utils/constants');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -26,7 +31,7 @@ module.exports.getUserId = (req, res) => {
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => res.send(user))
+    .then((user) => res.status(Created).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные при создании пользователя' });
