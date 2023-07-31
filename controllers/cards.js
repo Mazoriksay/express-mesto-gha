@@ -30,14 +30,15 @@ module.exports.deleteCard = (req, res, next) => {
       } else if (card.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Нет прав для удаления данной карточки');
       }
-      return res.send(card);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new BadRequest('Переданы некорректные данные при удалении карточки'));
-      }
+      Card.findByIdAndRemove(req.params.cardId)
+        .then((delCard) => res.send(delCard))
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            return next(new BadRequest('Переданы некорректные данные при удалении карточки'));
+          }
 
-      return next(err);
+          return next(err);
+        });
     });
 };
 
