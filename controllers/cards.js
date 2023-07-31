@@ -39,7 +39,8 @@ module.exports.deleteCard = (req, res, next) => {
 
           return next(err);
         });
-    });
+    })
+    .catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
