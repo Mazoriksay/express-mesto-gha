@@ -17,6 +17,17 @@ module.exports.getUsers = (req, res, next) => {
     .catch((next));
 };
 
+module.exports.getUser = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь не найден');
+      }
+      return res.send(user);
+    })
+    .catch((next));
+};
+
 module.exports.getUserId = (req, res, next) => {
   User.findById(req.params.userId)
     .then((user) => {
@@ -27,7 +38,7 @@ module.exports.getUserId = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequest('Переданы некорректные данные при нахождении пользователя');
+        next(new BadRequest('Переданы некорректные данные при нахождении пользователя'));
       }
       next(err);
     });
@@ -75,10 +86,15 @@ module.exports.login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      res.send({ token });
-      return res.cookie('jwt', token, {
+      res.cookie('jwt', token, {
         maxAge: 360000 * 24 * 7,
         httpOnly: true,
+      }).send({
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+        token,
       });
     })
     .catch((err) => {
