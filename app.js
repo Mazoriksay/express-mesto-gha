@@ -8,6 +8,8 @@ const { celebrate, Joi, errors } = require('celebrate');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
+const { regexLink } = require('./utils/constants');
+const errorHandler = require('./middlewares/error-handler');
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -35,7 +37,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/),
+    avatar: Joi.string().regex(regexLink),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
@@ -50,19 +52,7 @@ app.use('*', (req, res, next) => {
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-
-  next();
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

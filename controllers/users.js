@@ -38,9 +38,9 @@ module.exports.getUserId = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequest('Переданы некорректные данные при нахождении пользователя'));
+        return next(new BadRequest('Переданы некорректные данные при нахождении пользователя'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -67,12 +67,12 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с такой почтой уже зарегистрирован'));
+        return next(new ConflictError('Пользователь с такой почтой уже зарегистрирован'));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Переданы некорректные данные при создании пользователя'));
+        return next(new BadRequest('Переданы некорректные данные при создании пользователя'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -113,9 +113,9 @@ module.exports.updateUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Переданы некорректные данные при обновлении профиля'));
+        return next(new BadRequest('Переданы некорректные данные при обновлении профиля'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -130,8 +130,8 @@ module.exports.updateUserAvatar = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Переданы некорректные данные при обновлении аватара'));
+        return next(new BadRequest('Переданы некорректные данные при обновлении аватара'));
       }
-      next(err);
+      return next(err);
     });
 };
