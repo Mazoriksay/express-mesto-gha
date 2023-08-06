@@ -33,7 +33,7 @@ app.use(requestLogger);
 
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
-app.use(corsPolicy);
+app.use(corsPolicy());
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
