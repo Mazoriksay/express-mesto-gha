@@ -10,6 +10,7 @@ const cardRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const { regexLink } = require('./utils/constants');
 const errorHandler = require('./middlewares/error-handler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -25,6 +26,8 @@ mongoose.connect(DB_URL);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(requestLogger);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -46,13 +49,15 @@ app.post('/signup', celebrate({
 app.use('/users', auth, userRouter);
 app.use('/cards', auth, cardRouter);
 
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Запрос не был найден'));
-});
+app.use(errorLogger);
 
 app.use(errors());
 
 app.use(errorHandler);
+
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Запрос не был найден'));
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
