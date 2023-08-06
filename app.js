@@ -11,6 +11,7 @@ const auth = require('./middlewares/auth');
 const { regexLink } = require('./utils/constants');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { cors } = require('./middlewares/cors');
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -28,6 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use(cors);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
