@@ -12,7 +12,7 @@ const auth = require('./middlewares/auth');
 const { regexLink } = require('./utils/constants');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { cors } = require('./middlewares/cors');
+const { corsPolicy } = require('./middlewares/corsPolicy');
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -33,7 +33,7 @@ app.use(requestLogger);
 
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
-app.use(cors);
+app.use(corsPolicy);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

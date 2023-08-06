@@ -8,7 +8,7 @@ const allowedCors = [
 
 const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PATCH, POST, DELETE';
 
-module.exports.cors = (req, res, next) => {
+module.exports.corsPolicy = (req, res, next) => {
   const { origin } = req.headers;
   const { method } = req;
   const requestHeaders = req.headers['access-conrol-request-headers'];
