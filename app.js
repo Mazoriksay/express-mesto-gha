@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi, errors } = require('celebrate');
+const path = require('path');
 
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
@@ -29,6 +30,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use(express.static(path.join(__dirname, '../../frontend')));
 
 app.use(cors);
 

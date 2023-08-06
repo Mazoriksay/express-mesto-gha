@@ -1,6 +1,8 @@
 const allowedCors = [
   'http://mesto-skifenok.nomoreparties.co/',
   'https://mesto-skifenok.nomoreparties.co/',
+  'http://api.mesto-skifenok.nomoreparties.co/',
+  'https://api.mesto-skifenok.nomoreparties.co/',
   'localhost:3000',
 ];
 
