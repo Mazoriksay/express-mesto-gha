@@ -6,7 +6,7 @@ const allowedCors = [
   'localhost:3000',
 ];
 
-const DEFAUL_ALLOWED_METHODS = 'GET, HEAD, PATCH, POST, DELETE';
+const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PATCH, POST, DELETE';
 
 module.exports.cors = (req, res, next) => {
   const { origin } = req.headers;
@@ -14,11 +14,11 @@ module.exports.cors = (req, res, next) => {
   const requestHeaders = req.headers['access-conrol-request-headers'];
 
   if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin, origin');
+    res.header('Access-Control-Allow-Origin', origin);
   }
 
   if (method === 'OPTIONS') {
-    res.header('Acces-Control-Allow-Methods', DEFAUL_ALLOWED_METHODS);
+    res.header('Acces-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
     return res.end();
   }
