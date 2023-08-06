@@ -51,13 +51,13 @@ app.use('/cards', auth, cardRouter);
 
 app.use(errorLogger);
 
-app.use(errors());
-
-app.use(errorHandler);
-
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Запрос не был найден'));
 });
+
+app.use(errors());
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
