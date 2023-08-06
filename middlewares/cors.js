@@ -14,7 +14,7 @@ module.exports.cors = (req, res, next) => {
   const requestHeaders = req.headers['access-conrol-request-headers'];
 
   if (allowedCors.includes(origin)) {
-    res.header('Acces-Controll-Allow-origin, origin');
+    res.header('Acces-Controll-Allow-Origin, origin');
   }
 
   if (method === 'OPTIONS') {
