@@ -1,9 +1,10 @@
 const allowedCors = [
-  'http://mesto-skifenok.nomoreparties.co/',
-  'https://mesto-skifenok.nomoreparties.co/',
-  'http://api.mesto-skifenok.nomoreparties.co/',
-  'https://api.mesto-skifenok.nomoreparties.co/',
-  'localhost:3000',
+  'http://mesto-skifenok.nomoreparties.co',
+  'https://mesto-skifenok.nomoreparties.co',
+  'http://api.mesto-skifenok.nomoreparties.co',
+  'https://api.mesto-skifenok.nomoreparties.co',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PATCH, POST, DELETE';
