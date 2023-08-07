@@ -24,6 +24,7 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 
+app.use(corsPolicy);
 mongoose.connect(DB_URL);
 
 app.use(bodyParser.json());
@@ -33,7 +34,7 @@ app.use(requestLogger);
 
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
-// app.use(corsPolicy());
+app.use(corsPolicy);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
