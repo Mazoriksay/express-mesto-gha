@@ -89,13 +89,8 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 360000 * 24 * 7,
         httpOnly: true,
-      }).send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-        token,
-      });
+        sameSite: true,
+      }).send({ data: user.toJSON() });
     })
     .catch((err) => {
       next(new UnauthorizedError(err.message));
