@@ -12,7 +12,7 @@ const auth = require('./middlewares/auth');
 const { regexLink } = require('./utils/constants');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { corsPolicy } = require('./middlewares/corsPolicy');
+const corsPolicy = require('./middlewares/corsPolicy');
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -21,10 +21,10 @@ const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.en
 const { createUser, login } = require('./controllers/users');
 
 const app = express();
+app.use(corsPolicy);
 app.use(helmet());
 app.use(cookieParser());
 
-app.use(corsPolicy);
 mongoose.connect(DB_URL);
 
 app.use(bodyParser.json());
